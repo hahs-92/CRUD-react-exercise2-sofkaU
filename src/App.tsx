@@ -67,12 +67,13 @@ function App() {
   }
 
   const deleteCharacter = (id: string) => {
-    setCharacters(characters.filter(c => c.id !== id))
+    const confirm = window.confirm("Esta seguro de eliminar este registro?")
+    if(confirm) setCharacters(characters.filter(c => c.id !== id))
   }
 
   return (
-    <div className="App">
-      <Container>
+    <>
+      <Container className='mt-5'>
         <Button
           color='success'
           onClick={() => setModalOpen(true)}
@@ -81,7 +82,7 @@ function App() {
 
         <br />
 
-        <Table>
+        <Table className='mt-3'>
           <thead>
             <tr>
               <th>Id</th>
@@ -162,7 +163,7 @@ function App() {
           <Button color='danger' onClick={cancelModal}>Cancel</Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </>
   );
 }
 
