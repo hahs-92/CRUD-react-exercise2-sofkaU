@@ -1,31 +1,34 @@
+import { v4 as uuidv4 } from 'uuid';
+
+
 export const initialData = [
     {
-        id: 1,
+        id: uuidv4(),
         character: "Naruto",
         anime: "Naruto"
     },
     {
-        id: 2,
+        id: uuidv4(),
         character: "Goku",
         anime: "Dragon Ball"
     },
     {
-        id: 3,
+        id: uuidv4(),
         character: "Kenshin Himura",
         anime: "Rurouni Kenshin"
     },
     {
-        id: 4,
+        id: uuidv4(),
         character: "Monkey D. Luffy",
         anime: "One Piece"
     },
     {
-        id: 5,
+        id: uuidv4(),
         character: "Edward Elric",
         anime: "Fullmetal Alchemist: Brotherhood"
     },
     {
-        id: 6,
+        id: uuidv4(),
         character: "Seto Kaiba",
         anime: "Yu-Gi-Oh"
     },

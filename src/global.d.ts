@@ -1,5 +1,5 @@
 interface Character {
-    id: number | string
+    id: string
     character: string
     anime: string
 }

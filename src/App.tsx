@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import { v4 as uuidv4 } from 'uuid';
 import React, { useState } from 'react';
 import {
   Table,
@@ -32,14 +33,14 @@ function App() {
     //validacion de campos
     if(!newCharacter.character || !newCharacter.anime) return false
 
-    newCharacter.id = characters.length + 1
+    newCharacter.id = uuidv4()
     setCharacters(characters.concat(newCharacter))
     setModalOpen(false)
     setNewCharacter(newCharacterInit)
     setEditing(false)
   }
 
-  const editCharacter = (id: number) => {
+  const editCharacter = (id: string) => {
     setNewCharacter(characters.filter(c => c.id === id)[0])
     setEditing(true)
     setModalOpen(true)
@@ -65,7 +66,7 @@ function App() {
     setNewCharacter(newCharacterInit)
   }
 
-  const deleteCharacter = (id: number) => {
+  const deleteCharacter = (id: string) => {
     setCharacters(characters.filter(c => c.id !== id))
   }
 
@@ -98,9 +99,9 @@ function App() {
                   <td>{character.anime}</td>
 
                   <td>
-                    <Button color='primary' onClick={() => editCharacter(character.id as number)}>Edit</Button>
+                    <Button color='primary' onClick={() => editCharacter(character.id )}>Edit</Button>
                     <span>  </span>
-                    <Button color='danger' onClick={() => deleteCharacter(character.id as number)}>Delete</Button>
+                    <Button color='danger' onClick={() => deleteCharacter(character.id )}>Delete</Button>
                   </td>
                 </tr>
               ))
