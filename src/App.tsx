@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import React, { useState } from 'react';
 import {
   Table,
   Button,
@@ -11,15 +12,27 @@ import {
 } from 'reactstrap'
 //data dummty
 import { initialData } from './data/initialData'
-import { useState } from 'react';
 
 function App() {
   const [characters,setCharacters] = useState<Character[]>(initialData)
+  const [newCharacter, setNewCharacter] = useState<Character>({id:"", character:"", anime:""})
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setNewCharacter({
+      ...newCharacter,
+      [e.target.name]: e.target.value
+    })
+  }
 
   return (
     <div className="App">
       <Container>
-        <Button color='success' >Add new Character</Button>
+        <Button
+          color='success'
+          onClick={() => setModalOpen(true)}
+        >Add new Character
+        </Button>
 
         <br />
 
@@ -49,12 +62,55 @@ function App() {
               ))
             }
           </tbody>
-
-
-
-
         </Table>
       </Container>
+
+      <Modal isOpen={ modalOpen}>
+        <ModalHeader >
+          <div>
+            <h3>Add Character</h3>
+          </div>
+        </ModalHeader>
+
+        <ModalBody>
+          <FormGroup>
+            <label htmlFor="id">Id</label>
+            <input
+              id="id"
+              className='form-control'
+              type="text"
+              value={characters.length + 1}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label htmlFor="character">Character:</label>
+            <input
+              id="character"
+              name='character'
+              className='form-control'
+              type="text"
+              onChange={handleChange}
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <label htmlFor="anime">Anime:</label>
+            <input
+              id="anime"
+              name='anime'
+              className='form-control'
+              type="text"
+              onChange={handleChange}
+            />
+          </FormGroup>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button color='primary'>Add</Button>
+          <Button color='danger' onClick={() => setModalOpen(false)}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
