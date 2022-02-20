@@ -13,16 +13,60 @@ import {
 //data dummty
 import { initialData } from './data/initialData'
 
+const newCharacterInit = {id:"", character:"", anime:""}
+
 function App() {
   const [characters,setCharacters] = useState<Character[]>(initialData)
-  const [newCharacter, setNewCharacter] = useState<Character>({id:"", character:"", anime:""})
+  const [newCharacter, setNewCharacter] = useState<Character>(newCharacterInit)
   const [modalOpen, setModalOpen] = useState(false)
+  const [editing, setEditing] = useState(false)
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setNewCharacter({
       ...newCharacter,
       [e.target.name]: e.target.value
     })
+  }
+
+  const addNewCharacter = () => {
+    //validacion de campos
+    if(!newCharacter.character || !newCharacter.anime) return false
+
+    newCharacter.id = characters.length + 1
+    setCharacters(characters.concat(newCharacter))
+    setModalOpen(false)
+    setNewCharacter(newCharacterInit)
+    setEditing(false)
+  }
+
+  const editCharacter = (id: number) => {
+    setNewCharacter(characters.filter(c => c.id === id)[0])
+    setEditing(true)
+    setModalOpen(true)
+  }
+
+  const updateCharacter = () => {
+    //validacion de campos
+    if(!newCharacter.character || !newCharacter.anime) return false
+
+    setCharacters(characters.map(c => c.id === newCharacter.id ? newCharacter : c))
+    setNewCharacter(newCharacterInit)
+    setModalOpen(false)
+    setEditing(false)
+  }
+
+  const controller = () => {
+    (editing) ? updateCharacter() : addNewCharacter()
+  }
+
+  const cancelModal = () => {
+    setModalOpen(false)
+    setEditing(false)
+    setNewCharacter(newCharacterInit)
+  }
+
+  const deleteCharacter = (id: number) => {
+    setCharacters(characters.filter(c => c.id !== id))
   }
 
   return (
@@ -54,9 +98,9 @@ function App() {
                   <td>{character.anime}</td>
 
                   <td>
-                    <Button color='primary'>Edit</Button>
+                    <Button color='primary' onClick={() => editCharacter(character.id as number)}>Edit</Button>
                     <span>  </span>
-                    <Button color='danger'>Delete</Button>
+                    <Button color='danger' onClick={() => deleteCharacter(character.id as number)}>Delete</Button>
                   </td>
                 </tr>
               ))
@@ -68,20 +112,24 @@ function App() {
       <Modal isOpen={ modalOpen}>
         <ModalHeader >
           <div>
-            <h3>Add Character</h3>
+            <h3>{ editing ? "Edit Character" : "Add New Character"}</h3>
           </div>
         </ModalHeader>
 
         <ModalBody>
-          <FormGroup>
-            <label htmlFor="id">Id</label>
-            <input
-              id="id"
-              className='form-control'
-              type="text"
-              value={characters.length + 1}
-            />
-          </FormGroup>
+         {
+           editing &&
+            <FormGroup>
+              <label htmlFor="id">Id</label>
+              <input
+                id="id"
+                className='form-control'
+                type="text"
+                value={newCharacter.id}
+                onChange={handleChange}
+              />
+            </FormGroup>
+         }
 
           <FormGroup>
             <label htmlFor="character">Character:</label>
@@ -90,6 +138,7 @@ function App() {
               name='character'
               className='form-control'
               type="text"
+              value={newCharacter.character}
               onChange={handleChange}
             />
           </FormGroup>
@@ -101,14 +150,15 @@ function App() {
               name='anime'
               className='form-control'
               type="text"
+              value={newCharacter.anime}
               onChange={handleChange}
             />
           </FormGroup>
         </ModalBody>
 
         <ModalFooter>
-          <Button color='primary'>Add</Button>
-          <Button color='danger' onClick={() => setModalOpen(false)}>Cancel</Button>
+          <Button color='primary' onClick={ controller}>{!editing ? "Add" : "Edit"}</Button>
+          <Button color='danger' onClick={cancelModal}>Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>
