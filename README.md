@@ -1,5 +1,10 @@
 # Getting Started with Create React App
 
+# Views
+[![localhost-3000.png](https://i.postimg.cc/jdQ0F1ym/localhost-3000.png)](https://postimg.cc/jL5FWZg4)
+[![localhost-3000-1.png](https://i.postimg.cc/FsQXGvk0/localhost-3000-1.png)](https://postimg.cc/7bXRYpVL)
+[![localhost-3000-2.png](https://i.postimg.cc/FFSQjzz9/localhost-3000-2.png)](https://postimg.cc/G9bNRcvN)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
